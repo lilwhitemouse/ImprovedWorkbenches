@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 using Verse;
 
@@ -10,12 +10,12 @@ namespace ImprovedWorkbenches
     public class Widgets_ButtonImage_Detour
     {
         [HarmonyTargetMethod]
-        public static MethodInfo TargetMethod(HarmonyInstance inst)
+        public static MethodInfo TargetMethod(Harmony inst)
         {
             try
             {
                 return AccessTools.Method(typeof(Widgets), "ButtonImage",
-                    new[] { typeof(Rect), typeof(Texture2D), typeof(Color) });
+                    new[] { typeof(Rect), typeof(Texture2D), typeof(Color), typeof(bool) });
 
             }
             catch (Exception )
@@ -24,7 +24,7 @@ namespace ImprovedWorkbenches
             }
         }
 
-        static bool Prefix(ref bool __result, Rect butRect, Texture2D tex, Color baseColor)
+        static bool Prefix(ref bool __result, Rect butRect, Texture2D tex, Color baseColor, bool doMouseoverSound)
         {
             if (!Main.Instance.ShouldAllowDragToReorder())
                 return true;
